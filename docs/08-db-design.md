@@ -39,6 +39,27 @@
 * EMPLOYEE_ID는 UNIQUE로 관리한다.
 * 비밀번호는 암호화하여 저장한다.
 
+DDL 작성 시
+
+```text
+EMPLOYEE_SEQ
+
+↓
+
+PRIMARY KEY
+```
+
+```text
+EMPLOYEE_ID
+
+↓
+
+UNIQUE KEY
+```
+
+로 관리한다.
+
+
 ### 컬럼 정의
 
 | 컬럼명                | 정의           |
@@ -302,7 +323,9 @@
 
 * 알림은 물리삭제하지 않는다.
 * 알림 링크는 별도 컬럼 없이 BIZ_CD와 업무 데이터로 이동한다.
-* 최초 조회 시 FIRST_READ_DT를 저장한다.
+* 최초 조회 시 READ_YN을 Y로 변경하고 FIRST_READ_DT를 저장한다.
+* 이미 읽은 알림은 FIRST_READ_DT를 변경하지 않는다.
+
 
 ### 컬럼 정의
 
@@ -315,9 +338,11 @@
 | RECEIVER_ID      | 수신자 직원번호 |
 | TITLE            | 알림 제목    |
 | CONTENT          | 알림 내용    |
+| READ_YN          | 읽음 여부    |
 | FIRST_READ_DT    | 최초 읽은 일시 |
 | CREATE_DT        | 등록일시     |
 | CREATE_ID        | 등록자 직원번호 |
+
 
 # 04-2. SR
 
@@ -362,15 +387,18 @@ SR 요청 및 개발 진행 정보를 관리한다.
 
 ### SR_STATUS_CD
 
-| 코드            | 설명     |
-| ------------- | ------ |
-| SAVE          | 저장     |
-| REQUEST       | 요청     |
-| DEPT_APPROVED | 부서 승인  |
-| DEV_APPROVED  | 개발팀 승인 |
-| IN_PROGRESS   | 개발 진행  |
-| UAT           | 인수테스트  |
-| COMPLETED     | 개발 완료  |
+| 코드                    | 설명      |
+| --------------------- | ------- |
+| SAVE                  | 저장      |
+| REQUEST               | 요청      |
+| DEPT_APPROVED         | 부서 승인   |
+| DEV_APPROVED          | 개발팀 승인  |
+| IN_PROGRESS           | 개발 진행   |
+| DEV_COMPLETED         | 개발 완료   |
+| UAT                   | 인수테스트   |
+| DEV_MANAGER_CONFIRMED | 개발팀장 확인 |
+| COMPLETED             | SR 종료   |
+
 
 ---
 
@@ -1141,6 +1169,7 @@ CANCELED
 | 컬럼명               | 정의         |
 | ----------------- | ---------- |
 | EAPP_DOCUMENT_SEQ | 전자결재 문서 PK |
+| EAPP_TYPE_CD      | 전자결재 종류 코드 |
 | EAPP_TITLE        | 전자결재 제목    |
 | EAPP_CONTENT      | 전자결재 내용    |
 | REQUEST_ID        | 상신자 직원번호   |
@@ -1151,6 +1180,7 @@ CANCELED
 | CREATE_ID         | 등록자 직원번호   |
 | UPDATE_DT         | 수정일시       |
 | UPDATE_ID         | 수정자 직원번호   |
+
 
 ---
 
